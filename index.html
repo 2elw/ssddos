@@ -59,14 +59,13 @@ background: linear-gradient(159deg, rgb(98, 0, 0) 0%, rgb(110, 75, 0) 100%);
     <input type="text" id="schoolInput" style="height:50px;font-size:20pt;" placeholder="Naam school">
     <button id="startButton">Start DDOS</button></h1>
    <h3> <p>Voorbeelden: <br>
-      "test" als je test.smartschool.be gebruikt <br>
-      "school" als je school.smartschool.be gebruikt <br></p></h3>
+      <i><u>gent</u></i> als je <i><u>gent</u></i>.smartschool.be gebruikt <br>
+      <i><u>test</u></i> als je <i><u>test</u></i>.smartschool.be gebruikt <br></p></h3>
       Dit werkt best op Safari, Chrome kan trager zijn.
       (Chromebooks zijn sws het traagst en zullen misschien niet werken)
   </div>
 </center>
   <div id="stats">
-    <!-- Stats will be displayed here -->
   </div>
 
   <script>   
@@ -74,10 +73,10 @@ background: linear-gradient(159deg, rgb(98, 0, 0) 0%, rgb(110, 75, 0) 100%);
   if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(() => {
-          console.log('Service worker registered successfully.');
+          console.log('Service worker werkt.');
         })
         .catch((error) => {
-          console.error('Error registering service worker:', error);
+          console.error('Error service worker:', error);
         });
     }
 
